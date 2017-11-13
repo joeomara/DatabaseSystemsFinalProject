@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Button Content="Manage Teams" Margin="50,125,335,150" MaxHeight="200" MaxWidth="200" Click="Click_Manage_Teams"/>
+        <Button Content="Manage Brackets" Margin="335,125,50,150" MaxHeight="200" MaxWidth="200" Click="Click_Manage_Brackets"/>
     </Grid>
 </Window>

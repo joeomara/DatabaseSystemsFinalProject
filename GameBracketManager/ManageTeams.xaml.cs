@@ -10,31 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GameBracketManager
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ManageTeams.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ManageTeams : Window
     {
-        public MainWindow()
+        public ManageTeams()
         {
             InitializeComponent();
-        }
-
-        private void Click_Manage_Teams(object sender, RoutedEventArgs e)
-        {
-            var form = new ManageTeams();
-            form.Show();
-            Close();
-        }
-
-        private void Click_Manage_Brackets(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
