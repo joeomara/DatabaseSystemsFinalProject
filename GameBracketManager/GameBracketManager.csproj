@@ -54,12 +54,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BracketForm.xaml.cs">
+      <DependentUpon>BracketForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ManageBrackets.xaml.cs">
+      <DependentUpon>ManageBrackets.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PlayerForm.xaml.cs">
       <DependentUpon>PlayerForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="TeamForm.xaml.cs">
       <DependentUpon>TeamForm.xaml</DependentUpon>
     </Compile>
+    <Page Include="BracketForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -72,6 +82,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ManageBrackets.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ManageTeams.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

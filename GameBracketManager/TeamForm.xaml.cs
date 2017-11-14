@@ -15,16 +15,14 @@ namespace GameBracketManager
 
         private void Click_Add_Player(object sender, RoutedEventArgs e)
         {
-            var form = new PlayerForm();
-            form.Show();
+            var form = new PlayerForm { Owner = this };
             form.Owner = this;
             Hide();
         }
 
         private void Click_Edit_Player(object sender, RoutedEventArgs e)
         {
-            var form = new PlayerForm();
-            form.Show();
+            var form = new PlayerForm { Owner = this };
             form.Owner = this;
             Hide();
         }
@@ -32,7 +30,6 @@ namespace GameBracketManager
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
-
             Owner?.Show();
         }
     }

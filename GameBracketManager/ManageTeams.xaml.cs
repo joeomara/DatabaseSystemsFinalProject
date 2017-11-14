@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 
 namespace GameBracketManager
 {
@@ -14,18 +15,22 @@ namespace GameBracketManager
 
         private void Click_Add_Team(object sender, RoutedEventArgs e)
         {
-            var form = new TeamForm();
-            form.Show();
+            var form = new TeamForm { Owner = this };
             form.Owner = this;
             Hide();
         }
 
         private void Click_Edit_Team(object sender, RoutedEventArgs e)
         {
-            var form = new TeamForm();
-            form.Show();
+            var form = new TeamForm { Owner = this };
             form.Owner = this;
             Hide();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            Owner?.Show();
         }
     }
 }

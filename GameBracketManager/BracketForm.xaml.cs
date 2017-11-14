@@ -4,11 +4,11 @@ using System.Windows;
 namespace GameBracketManager
 {
     /// <summary>
-    /// Interaction logic for PlayerForm.xaml
+    /// Interaction logic for BracketForm.xaml
     /// </summary>
-    public partial class PlayerForm : Window
+    public partial class BracketForm : Window
     {
-        public PlayerForm()
+        public BracketForm()
         {
             InitializeComponent();
         }
