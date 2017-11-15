@@ -15,7 +15,7 @@ namespace GameBracketManager
 
         private void Click_Add_Team(object sender, RoutedEventArgs e)
         {
-            var form = new TeamForm { Owner = this };
+            var form = new NewTeamForm { Owner = this };
             form.Owner = this;
             form.Show();
             Hide();

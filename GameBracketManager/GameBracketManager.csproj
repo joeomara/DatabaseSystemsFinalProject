@@ -96,6 +96,9 @@
     <Compile Include="ManageBrackets.xaml.cs">
       <DependentUpon>ManageBrackets.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NewTeamForm.xaml.cs">
+      <DependentUpon>NewTeamForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PlayerForm.xaml.cs">
       <DependentUpon>PlayerForm.xaml</DependentUpon>
     </Compile>
@@ -123,6 +126,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ManageTeams.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NewTeamForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
