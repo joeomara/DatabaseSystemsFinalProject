@@ -17,6 +17,7 @@ namespace GameBracketManager
         {
             var form = new TeamForm { Owner = this };
             form.Owner = this;
+            form.Show();
             Hide();
         }
 
@@ -24,6 +25,7 @@ namespace GameBracketManager
         {
             var form = new TeamForm { Owner = this };
             form.Owner = this;
+            form.Show();
             Hide();
         }
 

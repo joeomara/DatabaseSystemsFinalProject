@@ -3,17 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GameBracketManager"
         mc:Ignorable="d"
-        Title="PlayerForm" Height="300" Width="300">
+        Title="PlayerForm" Height="210" Width="380">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="97*"/>
             <ColumnDefinition Width="195*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Name" Grid.ColumnSpan="2" Margin="0, 10" />
-        <TextBox Height="25" Grid.Column="1" Margin="0,10" VerticalAlignment="Top" />
-        <Label Margin="0,40" Content="DOB" Grid.ColumnSpan="2" />
-        <TextBox Height="25" Grid.Column="1" Margin="0,40" VerticalAlignment="Top" />
+        <Label Content="Display Name:" Grid.ColumnSpan="2" Margin="0,40,0,0" Height="25" VerticalAlignment="Top" />
+        <TextBox Height="25" Grid.Column="1" Margin="0,40" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+        <Label Margin="0,10,0,0" Content="First Name:" Grid.ColumnSpan="2" Grid.Column="0" Height="25" VerticalAlignment="Top" />
+        <TextBox Height="25" Grid.Column="1" Margin="0,10" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+        <Label Margin="0,70,0,0" Grid.Column="0" Content="Last Name:" Height="29" VerticalAlignment="Top" />
+        <TextBox Height="25" Grid.Column="1" VerticalAlignment="Top" Margin="0,70" VerticalContentAlignment="Center" />
+        <Button Content="Add" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="40" Height="30"/>
     </Grid>
 </Window>

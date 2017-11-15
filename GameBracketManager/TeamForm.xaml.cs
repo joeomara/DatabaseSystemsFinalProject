@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 
 namespace GameBracketManager
@@ -18,6 +19,7 @@ namespace GameBracketManager
             var form = new PlayerForm { Owner = this };
             form.Owner = this;
             Hide();
+            form.Show();
         }
 
         private void Click_Edit_Player(object sender, RoutedEventArgs e)
@@ -25,6 +27,7 @@ namespace GameBracketManager
             var form = new PlayerForm { Owner = this };
             form.Owner = this;
             Hide();
+            form.Show();
         }
 
         protected override void OnClosing(CancelEventArgs e)
