@@ -12,10 +12,13 @@ namespace GameBracketManager
     public partial class TeamPlayersForm : Window
     {
         private IEnumerable<Player> mPlayers;
+        private Team mTeam;
 
-        public TeamPlayersForm(IEnumerable<Player> players)
+        public TeamPlayersForm(Team team, IEnumerable<Player> players)
         {
             InitializeComponent();
+
+            mTeam = team;
 
             mPlayers = players ?? new List<Player>();
 
@@ -25,7 +28,7 @@ namespace GameBracketManager
 
         private void Click_Add_Player(object sender, RoutedEventArgs args)
         {
-            var form = new PlayerForm { Owner = this };
+            var form = new PlayerForm(mTeam) { Owner = this };
             form.Show();
             Hide();
         }
@@ -72,7 +75,7 @@ namespace GameBracketManager
                 return;
             }
 
-            var form = new PlayerForm(result) { Owner = this };
+            var form = new PlayerForm(result, mTeam) { Owner = this };
             form.Show();
             Hide();
         }

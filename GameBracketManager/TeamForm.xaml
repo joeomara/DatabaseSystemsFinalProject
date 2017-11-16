@@ -12,9 +12,9 @@
             <ColumnDefinition Width="195*"/>
         </Grid.ColumnDefinitions>
         <Label Content="Game:" Grid.ColumnSpan="2" Margin="0,40,0,0" Height="25" VerticalAlignment="Top" />
-        <TextBox Height="25" Grid.Column="1" Margin="0,40" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+        <TextBox Height="25" Name="txtGame" Grid.Column="1" Margin="0,40" VerticalAlignment="Top" VerticalContentAlignment="Center" />
         <Label Margin="0,10,0,0" Content="Name:" Grid.ColumnSpan="2" Grid.Column="0" Height="25" VerticalAlignment="Top" />
-        <TextBox Height="25" Grid.Column="1" Margin="0,10" VerticalAlignment="Top" VerticalContentAlignment="Center" />
-        <Button Content="Add" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="40" Height="30"/>
+        <TextBox Height="25" Name="txtName" Grid.Column="1" Margin="0,10" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+        <Button Content="Add" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="40" Height="30" Click="Click_Add_Team"/>
     </Grid>
 </Window>

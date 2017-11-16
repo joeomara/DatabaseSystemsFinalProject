@@ -56,7 +56,7 @@ namespace GameBracketManager
                 return;
             }
 
-            var form = new TeamPlayersForm(result.Players) { Owner = this };
+            var form = new TeamPlayersForm(result, result.Players) { Owner = this };
             form.Show();
             Hide();
         }
@@ -80,7 +80,11 @@ namespace GameBracketManager
 
             using (var context = new CS487Entities())
             {
-                context.Teams.Remove(result);
+                var toRemove = context.Teams.FirstOrDefault(o => o.Id == result.Id);
+
+                if (toRemove != null) context.Teams.Remove(toRemove);
+
+                // Do a cascade delete here...
 
                 context.SaveChanges();
             }
