@@ -18,7 +18,7 @@ namespace GameBracketManager.Infrastructure
         public string DisplayName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public System.Guid TeamId { get; set; }
+        public Nullable<System.Guid> TeamId { get; set; }
     
         public virtual Team Team { get; set; }
     }

@@ -28,8 +28,9 @@ namespace GameBracketManager
                 }
             }
 
-            dgTeams.ItemsSource = mTeams
-                .Select(o => new LimitedTeam {Name = o.Name, Game = o.GameName, Score = o.Score }).ToList();
+            if (mTeams.Count > 0)
+                dgTeams.ItemsSource = mTeams
+                    .Select(o => new LimitedTeam {Name = o.Name, Game = o.GameName, Score = o.Score }).ToList();
         }
 
         private void Click_Add_Team(object sender, RoutedEventArgs e)
@@ -80,11 +81,12 @@ namespace GameBracketManager
 
             using (var context = new CS487Entities())
             {
-                var toRemove = context.Teams.FirstOrDefault(o => o.Id == result.Id);
+                var toRemove = context.Teams.Where(o => o.Id == result.Id).Include(o => o.Brackets).Include(o => o.Players).Include(o => o.Game).FirstOrDefault();
 
-                if (toRemove != null) context.Teams.Remove(toRemove);
-
-                // Do a cascade delete here...
+                if (toRemove != null)
+                {
+                    context.Teams.Remove(toRemove);
+                }
 
                 context.SaveChanges();
             }

@@ -4,8 +4,16 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GameBracketManager.Infrastructure.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Bracket">
+    <Schema Namespace="GameBracketManager.Infrastructure.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BracketParticipants">
+          <Key>
+            <PropertyRef Name="Brackets_Name" />
+            <PropertyRef Name="Teams_Id" />
+          </Key>
+          <Property Name="Brackets_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Teams_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Brackets">
           <Key>
             <PropertyRef Name="Name" />
           </Key>
@@ -14,23 +22,13 @@
           <Property Name="EventDateTime" Type="datetime" Nullable="false" />
           <Property Name="GameName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'CS487.dbo.BracketParticipants' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="BracketParticipants">
-          <Key>
-            <PropertyRef Name="BracketName" />
-            <PropertyRef Name="ParticipantId" />
-          </Key>
-          <Property Name="BracketName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ParticipantId" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Game">
+        <EntityType Name="Games">
           <Key>
             <PropertyRef Name="Name" />
           </Key>
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <EntityType Name="Player">
+        <EntityType Name="Players">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -38,9 +36,9 @@ warning 6002: The table/view 'CS487.dbo.BracketParticipants' does not have a pri
           <Property Name="DisplayName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="25" Nullable="false" />
-          <Property Name="TeamId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TeamId" Type="uniqueidentifier" />
         </EntityType>
-        <EntityType Name="Team">
+        <EntityType Name="Teams">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -52,99 +50,93 @@ warning 6002: The table/view 'CS487.dbo.BracketParticipants' does not have a pri
           <Property Name="GameName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <Association Name="FK_Bracket_Bracket">
-          <End Role="Game" Type="Self.Game" Multiplicity="1" />
-          <End Role="Bracket" Type="Self.Bracket" Multiplicity="*" />
+          <End Role="Games" Type="Self.Games" Multiplicity="1" />
+          <End Role="Brackets" Type="Self.Brackets" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Game">
+            <Principal Role="Games">
               <PropertyRef Name="Name" />
             </Principal>
-            <Dependent Role="Bracket">
+            <Dependent Role="Brackets">
               <PropertyRef Name="GameName" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BracketParticipants_Bracket">
-          <End Role="Bracket" Type="Self.Bracket" Multiplicity="1" />
+          <End Role="Brackets" Type="Self.Brackets" Multiplicity="1" />
           <End Role="BracketParticipants" Type="Self.BracketParticipants" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Bracket">
+            <Principal Role="Brackets">
               <PropertyRef Name="Name" />
             </Principal>
             <Dependent Role="BracketParticipants">
-              <PropertyRef Name="BracketName" />
+              <PropertyRef Name="Brackets_Name" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BracketParticipants_Team">
-          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="Teams" Type="Self.Teams" Multiplicity="1" />
           <End Role="BracketParticipants" Type="Self.BracketParticipants" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Team">
+            <Principal Role="Teams">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="BracketParticipants">
-              <PropertyRef Name="ParticipantId" />
+              <PropertyRef Name="Teams_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Player_Team">
-          <End Role="Team" Type="Self.Team" Multiplicity="1" />
-          <End Role="Player" Type="Self.Player" Multiplicity="*" />
+          <End Role="Teams" Type="Self.Teams" Multiplicity="0..1" />
+          <End Role="Players" Type="Self.Players" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Team">
+            <Principal Role="Teams">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Player">
+            <Dependent Role="Players">
               <PropertyRef Name="TeamId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Team_Game">
-          <End Role="Game" Type="Self.Game" Multiplicity="1" />
-          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <End Role="Games" Type="Self.Games" Multiplicity="1" />
+          <End Role="Teams" Type="Self.Teams" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Game">
+            <Principal Role="Games">
               <PropertyRef Name="Name" />
             </Principal>
-            <Dependent Role="Team">
+            <Dependent Role="Teams">
               <PropertyRef Name="GameName" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="GameBracketManagerInfrastructureStoreContainer">
-          <EntitySet Name="Bracket" EntityType="Self.Bracket" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Game" EntityType="Self.Game" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Player" EntityType="Self.Player" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="BracketParticipants" EntityType="Self.BracketParticipants" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [BracketParticipants].[BracketName] AS [BracketName], 
-    [BracketParticipants].[ParticipantId] AS [ParticipantId]
-    FROM [dbo].[BracketParticipants] AS [BracketParticipants]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="BracketParticipants" EntityType="Self.BracketParticipants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Brackets" EntityType="Self.Brackets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Games" EntityType="Self.Games" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Players" EntityType="Self.Players" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teams" EntityType="Self.Teams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Bracket_Bracket" Association="Self.FK_Bracket_Bracket">
-            <End Role="Game" EntitySet="Game" />
-            <End Role="Bracket" EntitySet="Bracket" />
+            <End Role="Games" EntitySet="Games" />
+            <End Role="Brackets" EntitySet="Brackets" />
           </AssociationSet>
           <AssociationSet Name="FK_BracketParticipants_Bracket" Association="Self.FK_BracketParticipants_Bracket">
-            <End Role="Bracket" EntitySet="Bracket" />
+            <End Role="Brackets" EntitySet="Brackets" />
             <End Role="BracketParticipants" EntitySet="BracketParticipants" />
           </AssociationSet>
           <AssociationSet Name="FK_BracketParticipants_Team" Association="Self.FK_BracketParticipants_Team">
-            <End Role="Team" EntitySet="Team" />
+            <End Role="Teams" EntitySet="Teams" />
             <End Role="BracketParticipants" EntitySet="BracketParticipants" />
           </AssociationSet>
           <AssociationSet Name="FK_Player_Team" Association="Self.FK_Player_Team">
-            <End Role="Team" EntitySet="Team" />
-            <End Role="Player" EntitySet="Player" />
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="Players" EntitySet="Players" />
           </AssociationSet>
           <AssociationSet Name="FK_Team_Game" Association="Self.FK_Team_Game">
-            <End Role="Game" EntitySet="Game" />
-            <End Role="Team" EntitySet="Team" />
+            <End Role="Games" EntitySet="Games" />
+            <End Role="Teams" EntitySet="Teams" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GameBracketManager.Infrastructure" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -175,8 +167,8 @@ warning 6002: The table/view 'CS487.dbo.BracketParticipants' does not have a pri
           <Property Name="DisplayName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FirstName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LastName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="TeamId" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="Team" Relationship="Self.FK_Player_Team" FromRole="Player" ToRole="Team" />
+          <Property Name="TeamId" Type="Guid" Nullable="true" />
+          <NavigationProperty Name="Team" Relationship="GameBracketManager.Infrastructure.FK_Player_Team" FromRole="Player" ToRole="Team" />
         </EntityType>
         <EntityType Name="Team">
           <Key>
@@ -217,7 +209,7 @@ warning 6002: The table/view 'CS487.dbo.BracketParticipants' does not have a pri
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Player_Team">
-          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
           <End Role="Player" Type="Self.Player" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Team">
@@ -258,59 +250,58 @@ warning 6002: The table/view 'CS487.dbo.BracketParticipants' does not have a pri
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="GameBracketManagerInfrastructureStoreContainer" CdmEntityContainer="CS487Entities">
-          <EntitySetMapping Name="Brackets">
-            <EntityTypeMapping TypeName="GameBracketManager.Infrastructure.Bracket">
-              <MappingFragment StoreEntitySet="Bracket">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="PointsPerWin" ColumnName="PointsPerWin" />
-                <ScalarProperty Name="EventDateTime" ColumnName="EventDateTime" />
-                <ScalarProperty Name="GameName" ColumnName="GameName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Games">
-            <EntityTypeMapping TypeName="GameBracketManager.Infrastructure.Game">
-              <MappingFragment StoreEntitySet="Game">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Players">
-            <EntityTypeMapping TypeName="GameBracketManager.Infrastructure.Player">
-              <MappingFragment StoreEntitySet="Player">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Teams">
-            <EntityTypeMapping TypeName="GameBracketManager.Infrastructure.Team">
-              <MappingFragment StoreEntitySet="Team">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Wins" ColumnName="Wins" />
-                <ScalarProperty Name="Losses" ColumnName="Losses" />
-                <ScalarProperty Name="Score" ColumnName="Score" />
-                <ScalarProperty Name="GameName" ColumnName="GameName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="BracketParticipants" TypeName="GameBracketManager.Infrastructure.BracketParticipants" StoreEntitySet="BracketParticipants">
-            <EndProperty Name="Bracket">
-              <ScalarProperty Name="Name" ColumnName="BracketName" />
-            </EndProperty>
-            <EndProperty Name="Team">
-              <ScalarProperty Name="Id" ColumnName="ParticipantId" />
-            </EndProperty>
-          </AssociationSetMapping>
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="GameBracketManagerInfrastructureStoreContainer" CdmEntityContainer="CS487Entities">
+    <EntitySetMapping Name="Brackets">
+      <EntityTypeMapping TypeName="IsTypeOf(GameBracketManager.Infrastructure.Bracket)">
+        <MappingFragment StoreEntitySet="Brackets">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="PointsPerWin" ColumnName="PointsPerWin" />
+          <ScalarProperty Name="EventDateTime" ColumnName="EventDateTime" />
+          <ScalarProperty Name="GameName" ColumnName="GameName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Games">
+      <EntityTypeMapping TypeName="IsTypeOf(GameBracketManager.Infrastructure.Game)">
+        <MappingFragment StoreEntitySet="Games">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Players">
+      <EntityTypeMapping TypeName="IsTypeOf(GameBracketManager.Infrastructure.Player)">
+        <MappingFragment StoreEntitySet="Players">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Teams">
+      <EntityTypeMapping TypeName="IsTypeOf(GameBracketManager.Infrastructure.Team)">
+        <MappingFragment StoreEntitySet="Teams">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Wins" ColumnName="Wins" />
+          <ScalarProperty Name="Losses" ColumnName="Losses" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="GameName" ColumnName="GameName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="BracketParticipants" TypeName="GameBracketManager.Infrastructure.BracketParticipants" StoreEntitySet="BracketParticipants">
+      <EndProperty Name="Bracket">
+        <ScalarProperty Name="Name" ColumnName="Brackets_Name" />
+      </EndProperty>
+      <EndProperty Name="Team">
+        <ScalarProperty Name="Id" ColumnName="Teams_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -324,7 +315,7 @@ warning 6002: The table/view 'CS487.dbo.BracketParticipants' does not have a pri
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

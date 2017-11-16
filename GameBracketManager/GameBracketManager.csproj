@@ -63,8 +63,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddTeamForm.xaml.cs">
+      <DependentUpon>AddTeamForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BracketForm.xaml.cs">
       <DependentUpon>BracketForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BracketTeamsForm.xaml.cs">
+      <DependentUpon>BracketTeamsForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Bracket.cs">
       <DependentUpon>GameBracketModel.tt</DependentUpon>
@@ -105,7 +111,15 @@
     <Compile Include="TeamPlayersForm.xaml.cs">
       <DependentUpon>TeamPlayersForm.xaml</DependentUpon>
     </Compile>
+    <Page Include="AddTeamForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="BracketForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BracketTeamsForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -185,6 +199,7 @@
       <LastGenOutput>GameBracketModel.Context.cs</LastGenOutput>
       <DependentUpon>GameBracketModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Infrastructure\GameBracketModel.edmx.sql" />
     <Content Include="Infrastructure\GameBracketModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>GameBracketModel.edmx</DependentUpon>
