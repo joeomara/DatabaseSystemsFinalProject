@@ -28,7 +28,8 @@ namespace GameBracketManager
                 }
             }
 
-            dgTeams.ItemsSource = mTeams.Select(o => new LimitedTeam {Name = o.Name, Game = o.GameName, Score = o.Score }).ToList();
+            dgTeams.ItemsSource = mTeams
+                .Select(o => new LimitedTeam {Name = o.Name, Game = o.GameName, Score = o.Score }).ToList();
         }
 
         private void Click_Add_Team(object sender, RoutedEventArgs e)
@@ -45,8 +46,8 @@ namespace GameBracketManager
 
             if (selectedItem != null)
             {
-                result = mTeams.FirstOrDefault(o => o.Name == selectedItem.Name && o.GameName == selectedItem.Game &&
-                                           o.Score == selectedItem.Score);
+                result = mTeams
+                    .FirstOrDefault(o => o.Name == selectedItem.Name && o.GameName == selectedItem.Game && o.Score == selectedItem.Score);
             }
 
             if (result == null)

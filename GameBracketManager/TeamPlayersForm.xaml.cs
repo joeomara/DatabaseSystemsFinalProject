@@ -19,7 +19,8 @@ namespace GameBracketManager
 
             mPlayers = players ?? new List<Player>();
 
-            dgPlayers.ItemsSource = mPlayers.Select(o => new LimitedPlayer { FirstName = o.FirstName, DisplayName = o.DisplayName, LastName = o.LastName });
+            dgPlayers.ItemsSource = mPlayers
+                .Select(o => new LimitedPlayer { FirstName = o.FirstName, DisplayName = o.DisplayName, LastName = o.LastName }).ToList();
         }
 
         protected override void OnClosing(CancelEventArgs e)
