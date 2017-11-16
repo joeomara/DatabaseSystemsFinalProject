@@ -4,18 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="PlayerForm" Height="210" Width="380">
+        Title="PlayerForm" Height="210" Width="380"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="97*"/>
             <ColumnDefinition Width="195*"/>
         </Grid.ColumnDefinitions>
         <Label Content="Display Name:" Grid.ColumnSpan="2" Margin="0,40,0,0" Height="25" VerticalAlignment="Top" />
-        <TextBox Height="25" Grid.Column="1" Margin="0,40" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+        <TextBox Height="25" Grid.Column="1" Margin="0,40" VerticalAlignment="Top" VerticalContentAlignment="Center" Text="{Binding Player.DisplayName}" />
         <Label Margin="0,10,0,0" Content="First Name:" Grid.ColumnSpan="2" Grid.Column="0" Height="25" VerticalAlignment="Top" />
-        <TextBox Height="25" Grid.Column="1" Margin="0,10" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+        <TextBox Height="25" Grid.Column="1" Margin="0,10" VerticalAlignment="Top" VerticalContentAlignment="Center" Text="{Binding Player.FirstName}" />
         <Label Margin="0,70,0,0" Grid.Column="0" Content="Last Name:" Height="29" VerticalAlignment="Top" />
-        <TextBox Height="25" Grid.Column="1" VerticalAlignment="Top" Margin="0,70" VerticalContentAlignment="Center" />
-        <Button Content="Add" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="40" Height="30"/>
+        <TextBox Height="25" Grid.Column="1" VerticalAlignment="Top" Margin="0,70" VerticalContentAlignment="Center" Text="{Binding Player.LastName}" />
+        <Button Content="{Binding AddOrUpdate}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="Auto" MinWidth="50" Height="30" Click="Click_AddOrUpdate"/>
     </Grid>
 </Window>

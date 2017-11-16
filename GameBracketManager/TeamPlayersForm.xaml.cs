@@ -57,7 +57,24 @@ namespace GameBracketManager
 
         private void Click_Edit_Player(object sender, RoutedEventArgs args)
         {
-            
+            var selectedItem = dgPlayers.SelectedValue as LimitedPlayer;
+            Player result = null;
+
+            if (selectedItem != null)
+            {
+                result = mPlayers
+                    .FirstOrDefault(o => o.FirstName == selectedItem.FirstName && o.DisplayName == selectedItem.DisplayName && o.LastName == selectedItem.LastName);
+            }
+
+            if (result == null)
+            {
+                MessageBox.Show("You must select the team to edit.");
+                return;
+            }
+
+            var form = new PlayerForm(result) { Owner = this };
+            form.Show();
+            Hide();
         }
 
         protected override void OnClosing(CancelEventArgs e)
