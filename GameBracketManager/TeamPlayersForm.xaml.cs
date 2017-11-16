@@ -23,6 +23,43 @@ namespace GameBracketManager
                 .Select(o => new LimitedPlayer { FirstName = o.FirstName, DisplayName = o.DisplayName, LastName = o.LastName }).ToList();
         }
 
+        private void Click_Add_Player(object sender, RoutedEventArgs args)
+        {
+            var form = new PlayerForm { Owner = this };
+            form.Show();
+            Hide();
+        }
+
+        private void Click_Remove_Player(object sender, RoutedEventArgs args)
+        {
+            var selectedItem = dgPlayers.SelectedValue as LimitedPlayer;
+            Player result = null;
+
+            if (selectedItem != null)
+            {
+                result = mPlayers
+                    .FirstOrDefault(o => o.FirstName == selectedItem.FirstName && o.DisplayName == selectedItem.DisplayName && o.LastName == selectedItem.LastName);
+            }
+
+            if (result == null)
+            {
+                MessageBox.Show("You must select the team to delete.");
+                return;
+            }
+
+            using (var context = new CS487Entities())
+            {
+                context.Players.Remove(result);
+
+                context.SaveChanges();
+            }
+        }
+
+        private void Click_Edit_Player(object sender, RoutedEventArgs args)
+        {
+            
+        }
+
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);

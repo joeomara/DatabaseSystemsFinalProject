@@ -12,8 +12,9 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <DataGrid Name="dgPlayers" Grid.Row="0" Margin="10" />
-        <Button Grid.Row="1" Content="Add Team" Margin="0,0,10,10" HorizontalAlignment="Right" Width="75" Height="32" VerticalAlignment="Bottom"/>
-        <Button Grid.Row="1" Content="Edit Team" HorizontalAlignment="Left" Margin="10,0,0,10" Width="75" Height="32" VerticalAlignment="Bottom"/>
+        <Button Grid.Row="1" Content="Add Player" Margin="0,0,10,10" HorizontalAlignment="Right" Width="75" Height="32" VerticalAlignment="Bottom" Click="Click_Add_Player" />
+        <Button Grid.Row="1" Content="Edit Player" HorizontalAlignment="Left" Margin="10,0,0,10" Width="75" Height="32" VerticalAlignment="Bottom" Click="Click_Edit_Player" />
+        <Button Grid.Row="1" Content="Remove Player" Margin="0,0,90,10" HorizontalAlignment="Right" Width="75" Height="32" VerticalAlignment="Bottom" Click="Click_Remove_Player" />
 
     </Grid>
 </Window>

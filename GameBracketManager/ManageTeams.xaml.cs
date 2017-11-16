@@ -61,6 +61,31 @@ namespace GameBracketManager
             Hide();
         }
 
+        private void Click_Delete_Team(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = dgTeams.SelectedValue as LimitedTeam;
+            Team result = null;
+
+            if (selectedItem != null)
+            {
+                result = mTeams
+                    .FirstOrDefault(o => o.Name == selectedItem.Name && o.GameName == selectedItem.Game && o.Score == selectedItem.Score);
+            }
+
+            if (result == null)
+            {
+                MessageBox.Show("You must select the team to delete.");
+                return;
+            }
+
+            using (var context = new CS487Entities())
+            {
+                context.Teams.Remove(result);
+
+                context.SaveChanges();
+            }
+        }
+
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
