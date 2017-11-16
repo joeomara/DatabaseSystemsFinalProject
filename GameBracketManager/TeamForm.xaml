@@ -5,15 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameBracketManager"
         mc:Ignorable="d"
-        Title="TeamForm" Height="500" Width="750">
+        Title="TeamForm" Height="200" Width="380">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="6*"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <ListBox Grid.Row="0" Margin="10"/>
-        <Button Grid.Row="1" Content="Add Player" Margin="0,0,10,10" HorizontalAlignment="Right" Width="75" Height="32" VerticalAlignment="Bottom" Click="Click_Add_Player"/>
-        <Button Grid.Row="1" Content="Edit Player" HorizontalAlignment="Left" Margin="10,0,0,10" Width="75" Height="32" VerticalAlignment="Bottom" Click="Click_Edit_Player"/>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="97*"/>
+            <ColumnDefinition Width="195*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Game:" Grid.ColumnSpan="2" Margin="0,40,0,0" Height="25" VerticalAlignment="Top" />
+        <TextBox Height="25" Grid.Column="1" Margin="0,40" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+        <Label Margin="0,10,0,0" Content="Name:" Grid.ColumnSpan="2" Grid.Column="0" Height="25" VerticalAlignment="Top" />
+        <TextBox Height="25" Grid.Column="1" Margin="0,10" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+        <Button Content="Add" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="40" Height="30"/>
     </Grid>
 </Window>
