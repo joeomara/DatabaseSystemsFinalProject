@@ -66,8 +66,7 @@ namespace GameBracketManager
             using (var context = new CS487Entities())
             {
                 var toRemove = context.Teams.FirstOrDefault(o => o.Id == result.Id);
-                context.Brackets.FirstOrDefault(o => o.Name == mBracket.Name)?.Teams.Remove(toRemove);
-                context.Entry(mBracket).State = EntityState.Modified;
+                context.Brackets.Where(o => o.Name == mBracket.Name).Include(o => o.Teams).FirstOrDefault()?.Teams.Remove(toRemove);
 
                 context.SaveChanges();
             }

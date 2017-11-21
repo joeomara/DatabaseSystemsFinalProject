@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/16/2017 13:18:47
--- Generated from EDMX file: C:\Users\Joseph\documents\visual studio 2017\Projects\GameBracketManager\GameBracketManager\Infrastructure\GameBracketModel.edmx
+-- Date Created: 11/20/2017 20:38:33
+-- Generated from EDMX file: D:\487-Final\DatabaseSystemsFinalProject\GameBracketManager\Infrastructure\GameBracketModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -18,39 +18,39 @@ GO
 -- --------------------------------------------------
 
 IF OBJECT_ID(N'[dbo].[FK_Bracket_Bracket]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Bracket] DROP CONSTRAINT [FK_Bracket_Bracket];
+    ALTER TABLE [dbo].[Brackets] DROP CONSTRAINT [FK_Bracket_Bracket];
 GO
-IF OBJECT_ID(N'[GameBracketManagerInfrastructureStoreContainer].[FK_BracketParticipants_Bracket]', 'F') IS NOT NULL
-    ALTER TABLE [GameBracketManagerInfrastructureStoreContainer].[BracketParticipants] DROP CONSTRAINT [FK_BracketParticipants_Bracket];
+IF OBJECT_ID(N'[dbo].[FK_BracketParticipants_Bracket]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[BracketParticipants] DROP CONSTRAINT [FK_BracketParticipants_Bracket];
 GO
-IF OBJECT_ID(N'[GameBracketManagerInfrastructureStoreContainer].[FK_BracketParticipants_Team]', 'F') IS NOT NULL
-    ALTER TABLE [GameBracketManagerInfrastructureStoreContainer].[BracketParticipants] DROP CONSTRAINT [FK_BracketParticipants_Team];
+IF OBJECT_ID(N'[dbo].[FK_BracketParticipants_Team]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[BracketParticipants] DROP CONSTRAINT [FK_BracketParticipants_Team];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Player_Team]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Player] DROP CONSTRAINT [FK_Player_Team];
+    ALTER TABLE [dbo].[Players] DROP CONSTRAINT [FK_Player_Team];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Team_Game]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Team] DROP CONSTRAINT [FK_Team_Game];
+    ALTER TABLE [dbo].[Teams] DROP CONSTRAINT [FK_Team_Game];
 GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[Bracket]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Bracket];
+IF OBJECT_ID(N'[dbo].[BracketParticipants]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[BracketParticipants];
 GO
-IF OBJECT_ID(N'[dbo].[Game]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Game];
+IF OBJECT_ID(N'[dbo].[Brackets]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Brackets];
 GO
-IF OBJECT_ID(N'[dbo].[Player]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Player];
+IF OBJECT_ID(N'[dbo].[Games]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Games];
 GO
-IF OBJECT_ID(N'[dbo].[Team]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Team];
+IF OBJECT_ID(N'[dbo].[Players]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Players];
 GO
-IF OBJECT_ID(N'[GameBracketManagerInfrastructureStoreContainer].[BracketParticipants]', 'U') IS NOT NULL
-    DROP TABLE [GameBracketManagerInfrastructureStoreContainer].[BracketParticipants];
+IF OBJECT_ID(N'[dbo].[Teams]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Teams];
 GO
 
 -- --------------------------------------------------
@@ -78,7 +78,7 @@ CREATE TABLE [dbo].[Players] (
     [DisplayName] nvarchar(50)  NOT NULL,
     [FirstName] nvarchar(25)  NOT NULL,
     [LastName] nvarchar(25)  NOT NULL,
-    [TeamId] uniqueidentifier  NOT NULL
+    [TeamId] uniqueidentifier  NULL
 );
 GO
 

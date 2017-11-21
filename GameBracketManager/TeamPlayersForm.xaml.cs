@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Windows;
 using GameBracketManager.Infrastructure;
@@ -7,12 +8,12 @@ using GameBracketManager.Infrastructure;
 namespace GameBracketManager
 {
     /// <summary>
-    /// Interaction logic for TeamPlayersForm.xaml
+    ///     Interaction logic for TeamPlayersForm.xaml
     /// </summary>
     public partial class TeamPlayersForm : Window
     {
-        private IEnumerable<Player> mPlayers;
-        private Team mTeam;
+        private readonly IEnumerable<Player> mPlayers;
+        private readonly Team mTeam;
 
         public TeamPlayersForm(Team team, IEnumerable<Player> players)
         {
@@ -23,12 +24,17 @@ namespace GameBracketManager
             mPlayers = players ?? new List<Player>();
 
             dgPlayers.ItemsSource = mPlayers
-                .Select(o => new LimitedPlayer { FirstName = o.FirstName, DisplayName = o.DisplayName, LastName = o.LastName }).ToList();
+                .Select(o => new LimitedPlayer
+                {
+                    FirstName = o.FirstName,
+                    DisplayName = o.DisplayName,
+                    LastName = o.LastName
+                }).ToList();
         }
 
         private void Click_Add_Player(object sender, RoutedEventArgs args)
         {
-            var form = new PlayerForm(mTeam) { Owner = this };
+            var form = new PlayerForm(mTeam) {Owner = this};
             form.Show();
             Hide();
         }
@@ -36,26 +42,26 @@ namespace GameBracketManager
         private void Click_Remove_Player(object sender, RoutedEventArgs args)
         {
             var selectedItem = dgPlayers.SelectedValue as LimitedPlayer;
-            Player result = null;
 
             if (selectedItem != null)
-            {
-                result = mPlayers
-                    .FirstOrDefault(o => o.FirstName == selectedItem.FirstName && o.DisplayName == selectedItem.DisplayName && o.LastName == selectedItem.LastName);
-            }
+                using (var context = new CS487Entities())
+                {
+                    var teamResult = context.Teams.Where(o => o.Id == mTeam.Id).Include(o => o.Players)
+                        .FirstOrDefault();
+                    var playerResult =
+                        context.Players.FirstOrDefault(o => o.FirstName == selectedItem.FirstName &&
+                                                            o.LastName == selectedItem.LastName &&
+                                                            o.DisplayName == selectedItem.DisplayName);
 
-            if (result == null)
-            {
-                MessageBox.Show("You must select the team to delete.");
-                return;
-            }
+                    if (playerResult == null) return;
 
-            using (var context = new CS487Entities())
-            {
-                context.Players.Remove(result);
+                    var toRemove = teamResult.Players.FirstOrDefault(o => o.Id == playerResult.Id);
+                    teamResult.Players.Remove(toRemove);
 
-                context.SaveChanges();
-            }
+                    context.Entry(teamResult).State = EntityState.Modified;
+
+                    context.SaveChanges();
+                }
         }
 
         private void Click_Edit_Player(object sender, RoutedEventArgs args)
@@ -64,10 +70,10 @@ namespace GameBracketManager
             Player result = null;
 
             if (selectedItem != null)
-            {
                 result = mPlayers
-                    .FirstOrDefault(o => o.FirstName == selectedItem.FirstName && o.DisplayName == selectedItem.DisplayName && o.LastName == selectedItem.LastName);
-            }
+                    .FirstOrDefault(o => o.FirstName == selectedItem.FirstName &&
+                                         o.DisplayName == selectedItem.DisplayName &&
+                                         o.LastName == selectedItem.LastName);
 
             if (result == null)
             {
@@ -75,7 +81,7 @@ namespace GameBracketManager
                 return;
             }
 
-            var form = new PlayerForm(result, mTeam) { Owner = this };
+            var form = new PlayerForm(result, mTeam) {Owner = this};
             form.Show();
             Hide();
         }
